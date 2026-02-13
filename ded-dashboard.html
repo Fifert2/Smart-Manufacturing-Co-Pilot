@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FormAlloy DED - Live Build Command View</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0E1117;
+      --bg-card: #161B22;
+      --bg-hover: #1C2128;
+      --text-primary: #E6EDF3;
+      --text-secondary: #8B949E;
+      --accent-blue: #2F81F7;
+      --warning: #F2C744;
+      --critical: #FF4D4D;
+      --success: #3FB950;
+      --border: #30363D;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* LAYOUT GRID */
+    .dashboard {
+      display: grid;
+      grid-template-rows: 80px 1fr 200px;
+      height: 100vh;
+      gap: 0;
+    }
+
+    /* TOP STATUS BAR */
+    .status-bar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 3fr 6fr 3fr;
+      padding: 16px 24px;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .status-left, .status-center, .status-right {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .status-center {
+      align-items: center;
+    }
+
+    .status-right {
+      align-items: flex-end;
+    }
+
+    .machine-id {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .build-name {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .material-tag {
+      display: inline-block;
+      background: rgba(47, 129, 247, 0.15);
+      color: var(--accent-blue);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .progress-container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-primary);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), #58A6FF);
+      width: 38%;
+      border-radius: 4px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    .health-score {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--success);
+      margin-top: 4px;
+    }
+
+    .live-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px 16px;
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .status-badge {
+      margin-top: 8px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status-normal {
+      background: rgba(63, 185, 80, 0.15);
+      color: var(--success);
+    }
+
+    .status-warning {
+      background: rgba(242, 199, 68, 0.15);
+      color: var(--warning);
+    }
+
+    /* MAIN CONTENT GRID */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 3fr 6fr 3fr;
+      gap: 16px;
+      padding: 16px;
+      overflow-y: auto;
+      height: calc(100vh - 280px);
+    }
+
+    /* CARDS */
+    .panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(47, 129, 247, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+    }
+
+    .card-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* CHARTS */
+    .chart-container {
+      height: 120px;
+      background: var(--bg-primary);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60%;
+      background: linear-gradient(to top, rgba(47, 129, 247, 0.2), transparent);
+      border-top: 2px solid var(--accent-blue);
+      clip-path: polygon(
+        0% 100%, 2% 95%, 5% 88%, 8% 92%, 12% 85%, 
+        15% 78%, 20% 82%, 25% 75%, 30% 70%, 35% 72%, 
+        40% 68%, 45% 65%, 50% 62%, 55% 65%, 60% 58%, 
+        65% 55%, 70% 52%, 75% 55%, 80% 50%, 85% 48%, 
+        90% 52%, 95% 45%, 100% 42%, 100% 100%
+      );
+      animation: chartMove 3s ease-in-out infinite;
+    }
+
+    @keyframes chartMove {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-2px); }
+    }
+
+    /* METRICS GRID */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .metric-box {
+      background: var(--bg-primary);
+      padding: 12px;
+      border-radius: 4px;
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .metric-box-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .metric-box-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .metric-box-unit {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-left: 4px;
+    }
+
+    /* CENTER PANEL - MELT POOL */
+    .melt-pool-visual {
+      height: 300px;
+      background: var(--bg-primary);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .thermal-map {
+      width: 50%;
+      height: 100%;
+      float: left;
+      background: radial-gradient(circle at 45% 50%, 
+        #FF4D4D 0%, 
+        #FF8C42 15%, 
+        #F2C744 30%, 
+        #3FB950 50%, 
+        #2F81F7 70%, 
+        #1a1f26 100%
+      );
+      position: relative;
+    }
+
+    .thermal-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: pulse-ring 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.4; }
+    }
+
+    .melt-pool-data {
+      width: 50%;
+      height: 100%;
+      float: right;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .melt-metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .melt-metric-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .melt-metric-bar {
+      width: 120px;
+      height: 6px;
+      background: var(--bg-card);
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .melt-metric-fill {
+      height: 100%;
+      background: var(--success);
+      border-radius: 3px;
+    }
+
+    .deviation-red { background: var(--critical); }
+    .deviation-green { background: var(--success); }
+    .deviation-blue { background: var(--accent-blue); }
+
+    /* AI HEALTH GAUGES */
+    .gauge-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .gauge {
+      text-align: center;
+    }
+
+    .gauge-circle {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 8px;
+      position: relative;
+    }
+
+    .gauge-bg {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: conic-gradient(var(--success) 0% 85%, var(--bg-primary) 85% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gauge-inner {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-card);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .gauge-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    /* RIGHT PANEL - TOOLPATH */
+    .toolpath-visual {
+      height: 280px;
+      background: var(--bg-primary);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toolpath-grid {
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      position: relative;
+    }
+
+    .toolpath-line {
+      position: absolute;
+      top: 30%;
+      left: 10%;
+      width: 80%;
+      height: 2px;
+      background: var(--accent-blue);
+      box-shadow: 0 0 10px var(--accent-blue);
+      clip-path: polygon(
+        0% 50%, 10% 45%, 20% 50%, 30% 48%, 40% 52%, 
+        50% 50%, 60% 48%, 70% 50%, 80% 45%, 90% 50%, 100% 48%
+      );
+      animation: pathGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes pathGlow {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .toolhead {
+      position: absolute;
+      top: 30%;
+      left: 60%;
+      width: 12px;
+      height: 12px;
+      background: var(--accent-blue);
+      border-radius: 50%;
+      box-shadow: 0 0 15px var(--accent-blue);
+      animation: moveHead 4s linear infinite;
+    }
+
+    @keyframes moveHead {
+      0% { left: 10%; }
+      100% { left: 90%; }
+    }
+
+    /* AI INSIGHT FEED */
+    .ai-feed {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      overflow-y: auto;
+    }
+
+    .feed-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .feed-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .feed-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px;
+      background: var(--bg-primary);
+      border-radius: 6px;
+      border-left: 3px solid var(--accent-blue);
+      transition: all 0.2s;
+    }
+
+    .feed-item:hover {
+      background: var(--bg-hover);
+      transform: translateX(2px);
+    }
+
+    .feed-item.warning {
+      border-left-color: var(--warning);
+    }
+
+    .feed-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .feed-content {
+      flex: 1;
+    }
+
+    .feed-layer {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .feed-message {
+      font-size: 13px;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .feed-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .feed-action-btn {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .feed-action-btn:hover {
+      background: var(--bg-card);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    /* VOICE ASSISTANT */
+    .voice-assistant {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+    }
+
+    .voice-button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-blue), #58A6FF);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(47, 129, 247, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .voice-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 30px rgba(47, 129, 247, 0.6);
+    }
+
+    .voice-button:active {
+      transform: scale(0.95);
+    }
+
+    .voice-icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    /* LAYER METRICS */
+    .layer-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .layer-metric {
+      background: var(--bg-primary);
+      padding: 12px;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .layer-metric-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .layer-metric-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    /* SPARKLINE */
+    .sparkline {
+      height: 30px;
+      background: var(--bg-primary);
+      border-radius: 4px;
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sparkline-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70%;
+      background: linear-gradient(to top, rgba(63, 185, 80, 0.2), transparent);
+      border-top: 1px solid var(--success);
+      clip-path: polygon(
+        0% 100%, 10% 90%, 20% 85%, 30% 88%, 40% 80%, 
+        50% 75%, 60% 78%, 70% 70%, 80% 73%, 90% 65%, 100% 60%, 100% 100%
+      );
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- TOP STATUS BAR -->
+    <div class="status-bar">
+      <!-- LEFT -->
+      <div class="status-left">
+        <div class="machine-id mono">FA-DED-03</div>
+        <div class="build-name">IN718_Housing_RevC</div>
+        <span class="material-tag">Inconel 718</span>
+      </div>
+
+      <!-- CENTER -->
+      <div class="status-center">
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Layer 84 / 220</span>
+            <span>38% Complete</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill"></div>
+          </div>
+        </div>
+        <div class="health-score mono">92</div>
+        <div class="build-name">Build Health Score</div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="status-right">
+        <div class="live-metrics">
+          <div class="metric-item">
+            <div class="metric-label">Laser Power</div>
+            <div class="metric-value mono">1850 W</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">Chamber Temp</div>
+            <div class="metric-value mono">24.2°C</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">Oxygen</div>
+            <div class="metric-value mono">45 ppm</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-label">Feed Rate</div>
+            <div class="metric-value mono">12.8 g/m</div>
+          </div>
+        </div>
+        <span class="status-badge status-normal">● NORMAL</span>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT GRID -->
+    <div class="main-grid">
+      <!-- LEFT PANEL - PROCESS ENERGY -->
+      <div class="panel">
+        <!-- LASER SYSTEM -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Laser System</h3>
+            <div class="card-indicator"></div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-line"></div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <div class="metric-box-label">Melt Pool Temp</div>
+              <div class="metric-box-value mono">2180<span class="metric-box-unit">°C</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-label">Beam Diameter</div>
+              <div class="metric-box-value mono">2.8<span class="metric-box-unit">mm</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-label">Energy Density</div>
+              <div class="metric-box-value mono">52<span class="metric-box-unit">J/mm²</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-label">Stability Index</div>
+              <div class="metric-box-value mono">97<span class="metric-box-unit">%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- POWDER DELIVERY -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Powder Delivery</h3>
+            <div class="card-indicator"></div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-line" style="border-top-color: var(--success);"></div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-box" style="border-left-color: var(--success);">
+              <div class="metric-box-label">Feed Rate</div>
+              <div class="metric-box-value mono">12.8<span class="metric-box-unit">g/min</span></div>
+            </div>
+            <div class="metric-box" style="border-left-color: var(--success);">
+              <div class="metric-box-label">Gas Flow</div>
+              <div class="metric-box-value mono">8.5<span class="metric-box-unit">L/min</span></div>
+            </div>
+            <div class="metric-box" style="border-left-color: var(--success);">
+              <div class="metric-box-label">Hopper Level</div>
+              <div class="metric-box-value mono">68<span class="metric-box-unit">%</span></div>
+            </div>
+            <div class="metric-box" style="border-left-color: var(--success);">
+              <div class="metric-box-label">Stability</div>
+              <div class="metric-box-value mono">94<span class="metric-box-unit">%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ENVIRONMENT -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Environment</h3>
+            <div class="card-indicator"></div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-box" style="border-left-color: var(--warning);">
+              <div class="metric-box-label">Chamber Temp</div>
+              <div class="metric-box-value mono">24.2<span class="metric-box-unit">°C</span></div>
+            </div>
+            <div class="metric-box" style="border-left-color: var(--warning);">
+              <div class="metric-box-label">Humidity</div>
+              <div class="metric-box-value mono">32<span class="metric-box-unit">%</span></div>
+            </div>
+            <div class="metric-box" style="border-left-color: var(--accent-blue);">
+              <div class="metric-box-label">Oxygen</div>
+              <div class="metric-box-value mono">45<span class="metric-box-unit">ppm</span></div>
+            </div>
+            <div class="metric-box" style="border-left-color: var(--accent-blue);">
+              <div class="metric-box-label">Shield Gas</div>
+              <div class="metric-box-value mono">15.2<span class="metric-box-unit">L/min</span></div>
+            </div>
+          </div>
+          <div class="sparkline">
+            <div class="sparkline-line"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENTER PANEL - MELT POOL INTELLIGENCE -->
+      <div class="panel">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Melt Pool Intelligence</h3>
+            <div class="card-indicator"></div>
+          </div>
+          
+          <!-- THERMAL MAP & DATA -->
+          <div class="melt-pool-visual">
+            <div class="thermal-map">
+              <div class="thermal-overlay"></div>
+            </div>
+            <div class="melt-pool-data">
+              <div class="melt-metric">
+                <span class="melt-metric-label">Width vs Nominal</span>
+                <div class="melt-metric-bar">
+                  <div class="melt-metric-fill deviation-green" style="width: 98%;"></div>
+                </div>
+              </div>
+              <div class="melt-metric">
+                <span class="melt-metric-label">Length vs Nominal</span>
+                <div class="melt-metric-bar">
+                  <div class="melt-metric-fill deviation-green" style="width: 95%;"></div>
+                </div>
+              </div>
+              <div class="melt-metric">
+                <span class="melt-metric-label">Thermal Gradient</span>
+                <div class="melt-metric-bar">
+                  <div class="melt-metric-fill deviation-blue" style="width: 88%;"></div>
+                </div>
+              </div>
+              <div class="melt-metric">
+                <span class="melt-metric-label">Symmetry</span>
+                <div class="melt-metric-bar">
+                  <div class="melt-metric-fill deviation-green" style="width: 92%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI HEALTH GAUGES -->
+          <div class="gauge-grid">
+            <div class="gauge">
+              <div class="gauge-circle">
+                <div class="gauge-bg">
+                  <div class="gauge-inner mono">85</div>
+                </div>
+              </div>
+              <div class="gauge-label">Spatter Index</div>
+            </div>
+            <div class="gauge">
+              <div class="gauge-circle">
+                <div class="gauge-bg" style="background: conic-gradient(var(--success) 0% 92%, var(--bg-primary) 92% 100%);">
+                  <div class="gauge-inner mono">92</div>
+                </div>
+              </div>
+              <div class="gauge-label">Thermal Stability</div>
+            </div>
+            <div class="gauge">
+              <div class="gauge-circle">
+                <div class="gauge-bg" style="background: conic-gradient(var(--success) 0% 96%, var(--bg-primary) 96% 100%);">
+                  <div class="gauge-inner mono">96</div>
+                </div>
+              </div>
+              <div class="gauge-label">Defect Prob</div>
+            </div>
+            <div class="gauge">
+              <div class="gauge-circle">
+                <div class="gauge-bg" style="background: conic-gradient(var(--success) 0% 89%, var(--bg-primary) 89% 100%);">
+                  <div class="gauge-inner mono">89</div>
+                </div>
+              </div>
+              <div class="gauge-label">Symmetry Score</div>
+            </div>
+          </div>
+
+          <!-- LAYER METRICS -->
+          <div class="layer-metrics">
+            <div class="layer-metric">
+              <div class="layer-metric-value mono">84</div>
+              <div class="layer-metric-label">Current Layer</div>
+            </div>
+            <div class="layer-metric">
+              <div class="layer-metric-value mono">2.4</div>
+              <div class="layer-metric-label">Deposition Rate</div>
+            </div>
+            <div class="layer-metric">
+              <div class="layer-metric-value mono">+12μm</div>
+              <div class="layer-metric-label">Height Error</div>
+            </div>
+            <div class="layer-metric">
+              <div class="layer-metric-value mono">18.2kJ</div>
+              <div class="layer-metric-label">Energy Input</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL - MOTION & GEOMETRY -->
+      <div class="panel">
+        <!-- TOOLPATH -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Toolpath Live Map</h3>
+            <div class="card-indicator"></div>
+          </div>
+          <div class="toolpath-visual">
+            <div class="toolpath-grid">
+              <div class="toolpath-line"></div>
+              <div class="toolhead"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTION METRICS -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Motion Metrics</h3>
+            <div class="card-indicator"></div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <div class="metric-box-label">Travel Speed</div>
+              <div class="metric-box-value mono">850<span class="metric-box-unit">mm/s</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-label">Acceleration</div>
+              <div class="metric-box-value mono">2.4<span class="metric-box-unit">m/s²</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-label">Axis Load</div>
+              <div class="metric-box-value mono">68<span class="metric-box-unit">%</span></div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-box-label">Position Error</div>
+              <div class="metric-box-value mono">8<span class="metric-box-unit">μm</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BUILD INTEGRITY -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Build Integrity</h3>
+            <div class="card-indicator"></div>
+          </div>
+          <div class="chart-container">
+            <div class="chart-line" style="border-top-color: var(--warning);"></div>
+          </div>
+          <div class="metrics-grid">
+            <div class="metric-box" style="border-left-color: var(--warning);">
+              <div class="metric-box-label">Conformity</div>
+              <div class="metric-box-value mono">94<span class="metric-box-unit">%</span></div>
+            </div>
+            <div class="metric-box" style="border-left-color: var(--warning);">
+              <div class="metric-box-label">Drift</div>
+              <div class="metric-box-value mono">18<span class="metric-box-unit">μm</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI INSIGHT FEED -->
+    <div class="ai-feed">
+      <div class="feed-title">AI Insight Feed</div>
+      <div class="feed-items">
+        <div class="feed-item warning">
+          <svg class="feed-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <div class="feed-content">
+            <div class="feed-layer mono">Layer 82</div>
+            <div class="feed-message">Powder feed fluctuation detected (+6% variance). Feed stability at 94%.</div>
+            <div class="feed-actions">
+              <button class="feed-action-btn">Expand Analysis</button>
+              <button class="feed-action-btn">View Data</button>
+              <button class="feed-action-btn">Simulate Adjustment</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <svg class="feed-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <div class="feed-content">
+            <div class="feed-layer mono">Layer 83</div>
+            <div class="feed-message">Melt pool temperature trending 3.8% above baseline. Within tolerance.</div>
+            <div class="feed-actions">
+              <button class="feed-action-btn">View Trend</button>
+              <button class="feed-action-btn">Export Snapshot</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <svg class="feed-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <div class="feed-content">
+            <div class="feed-layer mono">Layer 84</div>
+            <div class="feed-message">Spatter index increased to 85. Monitoring thermal gradient stability.</div>
+            <div class="feed-actions">
+              <button class="feed-action-btn">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOICE ASSISTANT -->
+  <div class="voice-assistant">
+    <button class="voice-button" title="Ask EdgeStr">
+      <svg class="voice-icon" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    // Simulate real-time data updates
+    function updateMetrics() {
+      // Add subtle animations to values
+      const metrics = document.querySelectorAll('.metric-value, .metric-box-value, .gauge-inner');
+      metrics.forEach(metric => {
+        const current = parseFloat(metric.textContent);
+        if (!isNaN(current)) {
+          const variation = (Math.random() - 0.5) * 0.02;
+          const newValue = current * (1 + variation);
+          metric.textContent = newValue.toFixed(metric.textContent.includes('.') ? 1 : 0);
+        }
+      });
+    }
+
+    // Update every 2 seconds
+    setInterval(updateMetrics, 2000);
+
+    // Voice assistant interaction
+    document.querySelector('.voice-button').addEventListener('click', function() {
+      this.style.animation = 'none';
+      setTimeout(() => {
+        this.style.animation = '';
+      }, 10);
+      alert('Voice Assistant: "Ask me about build data, simulations, or anomaly analysis."');
+    });
+
+    // Feed item interactions
+    document.querySelectorAll('.feed-action-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 100);
+      });
+    });
+  </script>
+</body>
+</html>
