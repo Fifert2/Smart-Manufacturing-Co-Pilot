@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EdgeStr — Intelligent Software Solutions</title>
+  <meta name="description" content="EdgeStr empowers enterprises with intelligent software systems that automate operations, accelerate growth, and unlock competitive advantage." />
+  <link rel="stylesheet" href="main.css" />
+  <!-- Icons via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="webpages/assets/testlogo.png" alt="EdgeStr" />
+    </a>
+
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle">
+          Platform <i class="fa-solid fa-chevron-down" style="font-size:0.65rem;opacity:0.5;"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a href="webpages/platform.html">
+            <div class="dm-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div class="dm-text"><strong>Core Platform</strong><span>AI-powered automation engine</span></div>
+          </a>
+          <a href="webpages/solutions.html">
+            <div class="dm-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="dm-text"><strong>Solutions</strong><span>Industry-specific deployments</span></div>
+          </a>
+          <a href="webpages/platform.html#integrations">
+            <div class="dm-icon"><i class="fa-solid fa-plug"></i></div>
+            <div class="dm-text"><strong>Integrations</strong><span>Connect your stack</span></div>
+          </a>
+        </div>
+      </div>
+      <a href="webpages/solutions.html">Solutions</a>
+      <a href="webpages/company.html">Company</a>
+      <a href="webpages/customers.html">Customers</a>
+      <a href="webpages/contact.html">Contact</a>
+    </div>
+
+    <div class="nav-cta">
+      <a href="webpages/contact.html" class="btn-secondary" style="padding:10px 20px;font-size:0.82rem;">Get a Demo</a>
+      <a href="webpages/contact.html" class="btn-primary">
+        Get Started <i class="fa-solid fa-arrow-right" style="font-size:0.75rem;"></i>
+      </a>
+    </div>
+
+    <div class="nav-hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="webpages/platform.html">Platform</a>
+  <a href="webpages/solutions.html">Solutions</a>
+  <a href="webpages/company.html">Company</a>
+  <a href="webpages/customers.html">Customers</a>
+  <a href="webpages/contact.html">Contact</a>
+  <a href="webpages/contact.html" class="btn-primary" style="margin-top:16px;">Get Started →</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-particles"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-accent-bar"></div>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">Intelligent Enterprise Software</div>
+
+      <h1 class="hero-title">
+        The Future of<br/>
+        <span class="line-red">Smart Operations</span><br/>
+        <span class="line-outline">Starts Here</span>
+      </h1>
+
+      <p class="hero-desc">
+        EdgeStr delivers AI-driven software platforms that automate complex workflows, unify your data, and give your team the edge they need to outperform.
+      </p>
+
+      <div class="hero-actions">
+        <a href="webpages/contact.html" class="btn-primary">
+          Request Demo <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="webpages/platform.html" class="btn-outline-white">
+          <i class="fa-solid fa-play" style="font-size:0.7rem;"></i> See Platform
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number"><span data-count="98" data-suffix="%">0%</span></div>
+          <div class="stat-label">Uptime SLA</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span data-count="3.4" data-suffix="x">0x</span>ROI</div>
+          <div class="stat-label">Avg. Customer ROI</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span data-count="240" data-suffix="+">0+</span></div>
+          <div class="stat-label">Enterprise Clients</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Visual / Dashboard -->
+    <div class="hero-visual reveal-right">
+      <div class="hero-visual-card">
+        <div class="circuit-canvas">
+          <!-- Animated dashboard mockup -->
+          <div class="dashboard-anim">
+            <div class="dash-header">
+              <div class="dash-dot red"></div>
+              <div class="dash-dot yellow"></div>
+              <div class="dash-dot green"></div>
+              <div class="dash-title">EdgeStr Operations Dashboard</div>
+            </div>
+
+            <div class="dash-grid">
+              <div class="dash-metric">
+                <div class="dash-metric-val green live-metric" data-base="2340" data-range="50" data-prefix="" data-suffix="">2,340</div>
+                <div class="dash-metric-label">Active Workflows</div>
+              </div>
+              <div class="dash-metric">
+                <div class="dash-metric-val red live-metric" data-base="3" data-range="5" data-prefix="" data-suffix=" alerts">3 alerts</div>
+                <div class="dash-metric-label">Attention Needed</div>
+              </div>
+              <div class="dash-metric">
+                <div class="dash-metric-val live-metric" data-base="98" data-range="2" data-prefix="" data-suffix="%">98%</div>
+                <div class="dash-metric-label">System Health</div>
+              </div>
+              <div class="dash-metric">
+                <div class="dash-metric-val green live-metric" data-base="124" data-range="20" data-prefix="$" data-suffix="K">$124K</div>
+                <div class="dash-metric-label">Savings Today</div>
+              </div>
+            </div>
+
+            <div class="dash-chart">
+              <div style="font-size:0.68rem;color:rgba(255,255,255,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">Performance — 30 days</div>
+              <div class="chart-bars">
+                <div class="chart-bar" style="--h:45%;"></div>
+                <div class="chart-bar" style="--h:62%;"></div>
+                <div class="chart-bar" style="--h:55%;"></div>
+                <div class="chart-bar" style="--h:78%;"></div>
+                <div class="chart-bar accent" style="--h:70%;"></div>
+                <div class="chart-bar" style="--h:88%;"></div>
+                <div class="chart-bar" style="--h:75%;"></div>
+                <div class="chart-bar accent" style="--h:95%;"></div>
+                <div class="chart-bar" style="--h:82%;"></div>
+                <div class="chart-bar" style="--h:90%;"></div>
+                <div class="chart-bar accent" style="--h:100%;"></div>
+                <div class="chart-bar" style="--h:92%;"></div>
+              </div>
+            </div>
+
+            <!-- Live data stream -->
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,0.03);border-radius:5px;border-left:2px solid #4ADE80;">
+                <span style="font-size:0.68rem;color:rgba(255,255,255,0.25);font-family:monospace;">12:41:02</span>
+                <span style="font-size:0.72rem;color:rgba(255,255,255,0.5);">Workflow WF-4821 completed — <span style="color:#4ADE80;">SUCCESS</span></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,0.03);border-radius:5px;border-left:2px solid var(--red);">
+                <span style="font-size:0.68rem;color:rgba(255,255,255,0.25);font-family:monospace;">12:40:55</span>
+                <span style="font-size:0.72rem;color:rgba(255,255,255,0.5);">Alert triggered — Process PRC-019 — <span style="color:#FF6B7A;">REVIEW</span></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,0.03);border-radius:5px;border-left:2px solid rgba(255,255,255,0.15);">
+                <span style="font-size:0.68rem;color:rgba(255,255,255,0.25);font-family:monospace;">12:40:49</span>
+                <span style="font-size:0.72rem;color:rgba(255,255,255,0.5);">Data sync completed — 2,841 records updated</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating cards -->
+      <div class="hero-float-card card-1">
+        <div class="float-card-icon"><i class="fa-solid fa-bolt"></i></div>
+        <div class="float-card-text">
+          <strong>68% Faster</strong>
+          <span>Process automation</span>
+        </div>
+      </div>
+      <div class="hero-float-card card-2">
+        <div class="float-card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="float-card-text">
+          <strong>SOC 2 Certified</strong>
+          <span>Enterprise-grade security</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" onclick="document.getElementById('logos-bar').scrollIntoView({behavior:'smooth'})">
+    <div class="scroll-mouse"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PARTNER LOGOS TICKER
+═══════════════════════════════════════════════════════════ -->
+<div class="logos-section" id="logos-bar">
+  <p class="logos-label">Trusted by teams at leading companies</p>
+  <div class="logos-track" id="logos-track">
+    <!-- duplicated for infinite scroll -->
+    <div class="logo-item">Lockheed Martin</div>
+    <div class="logo-item">Boeing</div>
+    <div class="logo-item">Raytheon</div>
+    <div class="logo-item">Northrop Grumman</div>
+    <div class="logo-item">L3Harris</div>
+    <div class="logo-item">General Dynamics</div>
+    <div class="logo-item">SAIC</div>
+    <div class="logo-item">Leidos</div>
+    <div class="logo-item">BAE Systems</div>
+    <div class="logo-item">Lockheed Martin</div>
+    <div class="logo-item">Boeing</div>
+    <div class="logo-item">Raytheon</div>
+    <div class="logo-item">Northrop Grumman</div>
+    <div class="logo-item">L3Harris</div>
+    <div class="logo-item">General Dynamics</div>
+    <div class="logo-item">SAIC</div>
+    <div class="logo-item">Leidos</div>
+    <div class="logo-item">BAE Systems</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PLATFORM SECTION
+═══════════════════════════════════════════════════════════ -->
+<section id="platform">
+  <div class="section-inner">
+    <div class="platform-grid">
+      <div class="platform-content reveal-left">
+        <div class="label-tag">The Platform</div>
+        <h2 class="section-heading mt-16">Intelligent systems that<br/><span>work for you</span></h2>
+        <p class="section-sub mt-16">
+          One unified platform to orchestrate every workflow, integrate every system, and give every team the real-time intelligence they need to act decisively.
+        </p>
+
+        <div class="platform-features mt-32">
+          <div class="feat-item active">
+            <div class="feat-icon"><i class="fa-solid fa-brain"></i></div>
+            <div class="feat-body">
+              <strong>AI Decision Engine</strong>
+              <p>Machine learning models trained on your data to automate complex decision-making at scale.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon"><i class="fa-solid fa-network-wired"></i></div>
+            <div class="feat-body">
+              <strong>Unified Data Fabric</strong>
+              <p>Connect disparate systems into a single source of truth with real-time bidirectional sync.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="feat-body">
+              <strong>Predictive Analytics</strong>
+              <p>Surface insights before problems arise and capture opportunities faster than the competition.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="webpages/platform.html" class="btn-arrow-link mt-32" style="display:inline-flex;">
+          Explore the Platform
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="platform-visual reveal-right">
+        <div class="circuit-canvas" style="min-height:460px;border-radius:12px;overflow:hidden;">
+          <div class="dashboard-anim" style="padding:28px;">
+            <!-- Process flow visualization -->
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px;">Live Process Map</div>
+            <!-- SVG process flow -->
+            <svg viewBox="0 0 400 200" width="100%" style="max-height:180px;">
+              <!-- Nodes -->
+              <rect x="10" y="80" width="70" height="40" rx="6" fill="rgba(192,24,42,0.8)" />
+              <text x="45" y="105" text-anchor="middle" fill="white" font-size="9" font-family="Rajdhani">INPUT</text>
+              <rect x="110" y="80" width="70" height="40" rx="6" fill="rgba(22,37,84,0.9)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <text x="145" y="105" text-anchor="middle" fill="white" font-size="9" font-family="Rajdhani">VALIDATE</text>
+              <rect x="210" y="80" width="70" height="40" rx="6" fill="rgba(22,37,84,0.9)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <text x="245" y="105" text-anchor="middle" fill="white" font-size="9" font-family="Rajdhani">PROCESS</text>
+              <rect x="310" y="80" width="70" height="40" rx="6" fill="rgba(22, 163, 74, 0.8)" />
+              <text x="345" y="105" text-anchor="middle" fill="white" font-size="9" font-family="Rajdhani">OUTPUT</text>
+              <!-- Connector lines -->
+              <line x1="80" y1="100" x2="110" y2="100" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <polygon points="107,96 113,100 107,104" fill="rgba(255,255,255,0.4)"/>
+              <line x1="180" y1="100" x2="210" y2="100" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <polygon points="207,96 213,100 207,104" fill="rgba(255,255,255,0.4)"/>
+              <line x1="280" y1="100" x2="310" y2="100" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <polygon points="307,96 313,100 307,104" fill="rgba(255,255,255,0.4)"/>
+              <!-- Animated pulse -->
+              <circle r="6" fill="var(--red)" opacity="0.9">
+                <animateMotion dur="3s" repeatCount="indefinite">
+                  <mpath>
+                    <path d="M 80,100 L 380,100" />
+                  </mpath>
+                </animateMotion>
+              </circle>
+            </svg>
+
+            <div style="margin-top:20px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px;text-align:center;">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.5rem;color:white;" class="live-metric" data-base="1820" data-range="30">1,820</div>
+                  <div style="font-size:0.65rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;margin-top:3px;">Processed / hr</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px;text-align:center;">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.5rem;color:#4ADE80;">99.2%</div>
+                  <div style="font-size:0.65rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;margin-top:3px;">Accuracy</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:12px;text-align:center;">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.5rem;color:var(--red-bright);" class="live-metric" data-base="45" data-range="20" data-suffix="ms">45ms</div>
+                  <div style="font-size:0.65rem;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;margin-top:3px;">Avg. Latency</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+              <span style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.25);color:#4ADE80;font-size:0.7rem;font-family:'Rajdhani',sans-serif;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:100px;">● System Online</span>
+              <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);font-size:0.7rem;font-family:'Rajdhani',sans-serif;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:100px;">42 Services Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SOLUTIONS / SMART CARDS
+═══════════════════════════════════════════════════════════ -->
+<section id="solutions">
+  <div class="section-inner">
+    <div class="section-header centered reveal">
+      <div class="label-tag">What We Solve</div>
+      <h2 class="section-heading mt-16">Enterprise solutions for<br/><span>every challenge</span></h2>
+      <p class="section-sub mt-16">From operations automation to intelligent analytics, EdgeStr has the platform built for your industry's hardest problems.</p>
+    </div>
+
+    <div class="cards-grid">
+
+      <div class="smart-card reveal delay-1">
+        <div class="smart-card-visual">
+          <div class="animated-bg"></div>
+          <div class="card-icon-big"><i class="fa-solid fa-gears"></i></div>
+          <div class="card-label-overlay">Operations</div>
+        </div>
+        <div class="smart-card-body">
+          <div class="smart-card-title">Process Automation</div>
+          <p class="smart-card-desc">End-to-end workflow automation that eliminates manual bottlenecks, reduces error rates, and lets your team focus on high-value work.</p>
+          <a href="webpages/solutions.html" class="smart-card-link">
+            Learn More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="smart-card reveal delay-2">
+        <div class="smart-card-visual" style="background:linear-gradient(135deg,#162554,#0D1B3E);">
+          <div class="animated-bg" style="background:radial-gradient(circle at 80% 20%, rgba(192,24,42,0.7) 0%,transparent 50%),radial-gradient(circle at 20% 80%,rgba(22,37,84,0.9) 0%,transparent 50%);"></div>
+          <div class="card-icon-big"><i class="fa-solid fa-database"></i></div>
+          <div class="card-label-overlay">Data & Analytics</div>
+        </div>
+        <div class="smart-card-body">
+          <div class="smart-card-title">Unified Intelligence</div>
+          <p class="smart-card-desc">Break down data silos with our unified intelligence layer. Real-time dashboards, predictive models, and actionable insights.</p>
+          <a href="webpages/solutions.html" class="smart-card-link">
+            Learn More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="smart-card reveal delay-3">
+        <div class="smart-card-visual" style="background:linear-gradient(135deg,#1E3A6E,#162554);">
+          <div class="animated-bg" style="background:radial-gradient(circle at 50% 50%,rgba(192,24,42,0.5) 0%,transparent 60%);"></div>
+          <div class="card-icon-big"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="card-label-overlay">Security & Compliance</div>
+        </div>
+        <div class="smart-card-body">
+          <div class="smart-card-title">Enterprise Security</div>
+          <p class="smart-card-desc">SOC 2 Type II certified with zero-trust architecture. Your data protected at every layer with enterprise-grade controls.</p>
+          <a href="webpages/solutions.html" class="smart-card-link">
+            Learn More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="smart-card reveal delay-1">
+        <div class="smart-card-visual" style="background:linear-gradient(135deg,#0D1B3E,#1E3A6E);">
+          <div class="animated-bg" style="background:radial-gradient(circle at 30% 70%,rgba(192,24,42,0.6) 0%,transparent 50%);"></div>
+          <div class="card-icon-big"><i class="fa-solid fa-robot"></i></div>
+          <div class="card-label-overlay">AI & Machine Learning</div>
+        </div>
+        <div class="smart-card-body">
+          <div class="smart-card-title">AI Automation</div>
+          <p class="smart-card-desc">Deploy custom ML models with no data science expertise required. Automate decisions and predictions at enterprise scale.</p>
+          <a href="webpages/solutions.html" class="smart-card-link">
+            Learn More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="smart-card reveal delay-2">
+        <div class="smart-card-visual" style="background:linear-gradient(135deg,#162554,#0D1B3E);">
+          <div class="animated-bg" style="background:radial-gradient(circle at 70% 30%,rgba(192,24,42,0.5) 0%,transparent 50%);"></div>
+          <div class="card-icon-big"><i class="fa-solid fa-plug"></i></div>
+          <div class="card-label-overlay">Integrations</div>
+        </div>
+        <div class="smart-card-body">
+          <div class="smart-card-title">Seamless Integration</div>
+          <p class="smart-card-desc">200+ pre-built connectors. REST APIs. Webhooks. Connect any system in hours, not months.</p>
+          <a href="webpages/solutions.html" class="smart-card-link">
+            Learn More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="smart-card reveal delay-3">
+        <div class="smart-card-visual" style="background:linear-gradient(135deg,#8B1020,#C0182A,#0D1B3E);">
+          <div class="animated-bg" style="background:radial-gradient(circle at 50% 50%,rgba(255,255,255,0.1) 0%,transparent 50%);"></div>
+          <div class="card-icon-big"><i class="fa-solid fa-users"></i></div>
+          <div class="card-label-overlay">Collaboration</div>
+        </div>
+        <div class="smart-card-body">
+          <div class="smart-card-title">Team Command Center</div>
+          <p class="smart-card-desc">Unified workspace for cross-functional teams. Assign tasks, track progress, and collaborate on decisions in one place.</p>
+          <a href="webpages/solutions.html" class="smart-card-link">
+            Learn More
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════════════════════════ -->
+<section id="how-it-works">
+  <div class="section-inner">
+    <div class="section-header centered reveal">
+      <div class="label-tag" style="color:#FF6B7A;">How It Works</div>
+      <h2 class="section-heading mt-16">Up and running in<br/><span style="color:var(--red-bright);">four steps</span></h2>
+      <p class="section-sub mt-16">EdgeStr is built for fast deployment. From kickoff to live operations in as little as 30 days.</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step reveal delay-1">
+        <div class="step-num">01</div>
+        <div class="step-icon">🔗</div>
+        <div class="step-title">Connect</div>
+        <p class="step-desc">Integrate your existing tools and data sources via our 200+ native connectors and open API.</p>
+      </div>
+      <div class="process-step reveal delay-2">
+        <div class="step-num">02</div>
+        <div class="step-icon">⚙️</div>
+        <div class="step-title">Configure</div>
+        <p class="step-desc">Use our visual workflow builder to map and automate your processes — no code required.</p>
+      </div>
+      <div class="process-step reveal delay-3">
+        <div class="step-num">03</div>
+        <div class="step-icon">🚀</div>
+        <div class="step-title">Deploy</div>
+        <p class="step-desc">Go live with confidence. Our team ensures smooth rollout with dedicated implementation support.</p>
+      </div>
+      <div class="process-step reveal delay-4">
+        <div class="step-num">04</div>
+        <div class="step-icon">📈</div>
+        <div class="step-title">Optimize</div>
+        <p class="step-desc">AI continuously monitors and improves your workflows. Results compound over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     STATS BANNER
+═══════════════════════════════════════════════════════════ -->
+<section id="stats-banner">
+  <div class="section-inner">
+    <div class="stats-grid">
+      <div class="stat-block reveal delay-1">
+        <div class="stat-big"><span data-count="68" data-suffix="%">0%</span></div>
+        <div class="stat-desc">Reduction in manual processing time</div>
+      </div>
+      <div class="stat-block reveal delay-2">
+        <div class="stat-big"><span data-count="3.4" data-suffix="x">0x</span></div>
+        <div class="stat-desc">Average return on investment</div>
+      </div>
+      <div class="stat-block reveal delay-3">
+        <div class="stat-big"><span data-count="240" data-suffix="+">0+</span></div>
+        <div class="stat-desc">Enterprise clients worldwide</div>
+      </div>
+      <div class="stat-block reveal delay-4">
+        <div class="stat-big"><sup>&lt;</sup><span data-count="30" data-suffix=" days">0 days</span></div>
+        <div class="stat-desc">Average time to deployment</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CUSTOMERS / TESTIMONIALS
+═══════════════════════════════════════════════════════════ -->
+<section id="customers">
+  <div class="section-inner">
+    <div class="section-header centered reveal">
+      <div class="label-tag">Customers</div>
+      <h2 class="section-heading mt-16">Trusted by teams who<br/><span>demand results</span></h2>
+    </div>
+
+    <div class="customer-logos-grid reveal">
+      <div class="customer-logo-item">Lockheed</div>
+      <div class="customer-logo-item">Boeing</div>
+      <div class="customer-logo-item">Raytheon</div>
+      <div class="customer-logo-item">Northrop</div>
+      <div class="customer-logo-item">SAIC</div>
+      <div class="customer-logo-item">Leidos</div>
+      <div class="customer-logo-item">L3Harris</div>
+      <div class="customer-logo-item">BAE Systems</div>
+      <div class="customer-logo-item">General Dynamics</div>
+      <div class="customer-logo-item">Peraton</div>
+    </div>
+
+    <div class="testimonial-row">
+      <div class="testimonial-card reveal delay-1">
+        <p class="quote-text">EdgeStr transformed how our operations team works. We cut processing time by 72% in the first quarter and haven't looked back. The platform is intuitive and the support is outstanding.</p>
+        <div class="quote-author">
+          <div class="author-avatar">JM</div>
+          <div class="author-info">
+            <strong>James Mitchell</strong>
+            <span>VP Operations, Aerospace Division</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal delay-2">
+        <p class="quote-text">The AI decision engine alone saved us millions in Q2. EdgeStr doesn't just automate — it actually learns and improves. Our team now has time to work on strategy instead of firefighting.</p>
+        <div class="quote-author">
+          <div class="author-avatar">SK</div>
+          <div class="author-info">
+            <strong>Sarah Kim</strong>
+            <span>Chief Digital Officer, Defense Contractor</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:48px;">
+      <a href="webpages/customers.html" class="btn-arrow-link" style="justify-content:center;">
+        Read All Customer Stories
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CTA SECTION
+═══════════════════════════════════════════════════════════ -->
+<section id="cta-section">
+  <div class="cta-glow"></div>
+  <div class="section-inner" style="position:relative;z-index:2;">
+    <div class="reveal">
+      <div class="label-tag" style="color:#FF6B7A;justify-content:center;margin-bottom:20px;">Get Started Today</div>
+      <h2 class="section-heading" style="color:var(--white);text-align:center;">Ready to give your team<br/><span style="color:var(--red-bright);">the edge?</span></h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.55);text-align:center;margin:20px auto 40px;">Schedule a personalized demo and see EdgeStr in action on your real workflows. No obligation, just results.</p>
+
+      <div class="cta-buttons">
+        <a href="webpages/contact.html" class="btn-primary" style="font-size:1rem;padding:16px 40px;">
+          Request a Demo <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="webpages/platform.html" class="btn-outline-white">
+          Explore Platform
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="webpages/assets/testlogo.png" alt="EdgeStr" />
+        </div>
+        <p class="footer-desc">EdgeStr delivers intelligent software systems that automate operations, accelerate growth, and unlock competitive advantage for enterprise teams.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="webpages/platform.html">Overview</a></li>
+          <li><a href="webpages/platform.html#ai-engine">AI Engine</a></li>
+          <li><a href="webpages/platform.html#integrations">Integrations</a></li>
+          <li><a href="webpages/platform.html#security">Security</a></li>
+          <li><a href="webpages/platform.html#pricing">Pricing</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="webpages/solutions.html">By Industry</a></li>
+          <li><a href="webpages/solutions.html">Automation</a></li>
+          <li><a href="webpages/solutions.html">Analytics</a></li>
+          <li><a href="webpages/solutions.html">Security</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="webpages/company.html">About Us</a></li>
+          <li><a href="webpages/company.html#leadership">Leadership</a></li>
+          <li><a href="webpages/company.html#careers">Careers</a></li>
+          <li><a href="webpages/company.html#press">Press</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="webpages/customers.html">Case Studies</a></li>
+          <li><a href="webpages/contact.html">Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 EdgeStr. All rights reserved.</span>
+
+      <!-- Powered by EdgeStar badge -->
+      <div style="display:flex;align-items:center;gap:20px;">
+        <div style="display:flex;gap:16px;">
+          <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.2);transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'">Privacy</a>
+          <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.2);transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'">Terms</a>
+        </div>
+        <div class="powered-badge">
+          <span>Powered by</span>
+          <img src="webpages/assets/edgestar.png" alt="EdgeStar" />
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
