@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reports • Smart Manufacturing</title>
+  <link rel="stylesheet" href="../main.css" />
+</head>
+<body>
+  <div class="app">
+
+    <div class="topbar">
+      <div class="brand">
+         <img src="./resources/testlogo.png" alt="Smart Manufacturing Logo" class="logoImg">
+         <div class="brandTitle">
+          <strong>SMART MANUFACTURING Co-Pilot</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+
+   <nav class="tabs" aria-label="Primary">
+      <a class="tab" href="./machines.html"><span class="tabDot"></span>Machines</a>
+      <a class="tab" href="./dashboard.html"><span class="tabDot"></span>Dashboard</a>
+      <a class="tab active" href="./reports.html"><span class="tabDot"></span>Reports</a>
+      <a class="tab" href="./production.html"><span class="tabDot"></span>Production</a>
+      <a class="tab" href="./automations.html"><span class="tabDot"></span>Automations</a>
+   </nav>
+
+      <div class="topActions">
+        <button class="iconBtn" title="Help">?</button>
+        <button class="iconBtn" title="Settings">⚙</button>
+        <button class="primaryBtn" id="newReport">New Report</button>
+      </div>
+    </div>
+
+    <main class="page">
+      <div class="pageHeader">
+        <div class="hTitle">
+          <h1>Reports</h1>
+          <p>Use this page for scheduled exports, QA summaries, build logs, downtime analysis, and traceability artifacts.</p>
+        </div>
+
+        <div class="headerControls">
+          <select class="select" id="type">
+            <option value="all" selected>All Types</option>
+            <option value="util">Utilization</option>
+            <option value="quality">Quality</option>
+            <option value="trace">Traceability</option>
+            <option value="maintenance">Maintenance</option>
+          </select>
+          <button class="smallBtn" id="exportAll">Export All</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card col-12">
+          <div class="cardHeader">
+            <div class="cardTitle">Available Reports</div>
+          </div>
+          <div class="cardBody">
+            <div class="list" id="reportList"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Drawer: New Report -->
+    <div class="backdrop" id="reportBackdrop" aria-hidden="true">
+      <div class="drawer" role="dialog" aria-modal="true" aria-label="New Report">
+        <div class="drawerHeader">
+          <div>
+            <h2>Create Report</h2>
+            <p>Prototype drawer. Later: report templates + scheduling.</p>
+          </div>
+          <button class="drawerClose" id="closeReport">✕</button>
+        </div>
+
+        <div class="form">
+          <div class="field">
+            <label>Report Name</label>
+            <input id="rName" placeholder="Monthly Utilization Summary" />
+          </div>
+          <div class="field">
+            <label>Type</label>
+            <select id="rType">
+              <option value="util">Utilization</option>
+              <option value="quality">Quality</option>
+              <option value="trace">Traceability</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <textarea id="rDesc" placeholder="What will this report include?"></textarea>
+          </div>
+        </div>
+
+        <div class="drawerFooter">
+          <button class="smallBtn" id="cancelReport">Cancel</button>
+          <button class="primaryBtn" id="saveReport">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const reportList = document.getElementById('reportList');
+    const filterType = document.getElementById('type');
+
+    let reports = [
+      { name:"Utilization Summary (Last 30 Days)", type:"util", desc:"Machine utilization, cycle time, downtime breakdown.", updated:"Today" },
+      { name:"DED Traceability Packet", type:"trace", desc:"Build ID, sensor snapshot summary, anomalies log, operator notes.", updated:"Yesterday" },
+      { name:"Quality — Scrap & Rework", type:"quality", desc:"Scrap rate, root causes, shift comparisons.", updated:"3 days ago" },
+      { name:"Maintenance — Top Downtime Drivers", type:"maintenance", desc:"Recurring downtime categories and mean time to recover.", updated:"1 week ago" }
+    ];
+
+    function render(){
+      const t = filterType.value;
+      const view = (t === "all") ? reports : reports.filter(r => r.type === t);
+
+      reportList.innerHTML = view.map(r => `
+        <div class="listItem">
+          <div class="listMeta">
+            <strong>${r.name}</strong>
+            <span>${r.desc} • Updated: ${r.updated}</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
+            <button class="smallBtn">Preview</button>
+            <button class="smallBtn">Download</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    filterType.addEventListener('change', render);
+    render();
+
+    // Drawer
+    const reportBackdrop = document.getElementById('reportBackdrop');
+    const newReport = document.getElementById('newReport');
+    const closeReport = document.getElementById('closeReport');
+    const cancelReport = document.getElementById('cancelReport');
+    const saveReport = document.getElementById('saveReport');
+
+    function show(){ reportBackdrop.classList.add('show'); reportBackdrop.setAttribute('aria-hidden','false'); document.getElementById('rName').focus(); }
+    function hide(){ reportBackdrop.classList.remove('show'); reportBackdrop.setAttribute('aria-hidden','true'); }
+
+    newReport.addEventListener('click', show);
+    closeReport.addEventListener('click', hide);
+    cancelReport.addEventListener('click', hide);
+    reportBackdrop.addEventListener('click', (e) => { if(e.target === reportBackdrop) hide(); });
+    document.addEventListener('keydown', (e) => { if(e.key === "Escape" && reportBackdrop.classList.contains('show')) hide(); });
+
+    saveReport.addEventListener('click', () => {
+      const name = document.getElementById('rName').value.trim();
+      const type = document.getElementById('rType').value;
+      const desc = document.getElementById('rDesc').value.trim() || "Custom report.";
+
+      if(!name){ alert("Please enter a report name."); return; }
+
+      reports.unshift({ name, type, desc, updated:"Just now" });
+
+      document.getElementById('rName').value = "";
+      document.getElementById('rType').value = "util";
+      document.getElementById('rDesc').value = "";
+
+      hide();
+      render();
+    });
+
+    document.getElementById('exportAll').addEventListener('click', () => {
+      alert("Prototype: export all reports (hook up later).");
+    });
+  </script>
+</body>
+</html>

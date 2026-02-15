@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Production • Smart Manufacturing</title>
+  <link rel="stylesheet" href="../main.css" />
+</head>
+<body>
+  <div class="app">
+
+    <div class="topbar">
+      <div class="brand">
+         <img src="./resources/testlogo.png" alt="Smart Manufacturing Logo" class="logoImg">
+         <div class="brandTitle">
+          <strong>SMART MANUFACTURING Co-Pilot</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+
+   <nav class="tabs" aria-label="Primary">
+      <a class="tab" href="./machines.html"><span class="tabDot"></span>Machines</a>
+      <a class="tab" href="./dashboard.html"><span class="tabDot"></span>Dashboard</a>
+      <a class="tab" href="./reports.html"><span class="tabDot"></span>Reports</a>
+      <a class="tab active" href="./production.html"><span class="tabDot"></span>Production</a>
+      <a class="tab" href="./automations.html"><span class="tabDot"></span>Automations</a>
+   </nav>
+
+      <div class="topActions">
+        <button class="iconBtn" title="Help">?</button>
+        <button class="iconBtn" title="Settings">⚙</button>
+        <span class="pill">Shift A</span>
+      </div>
+    </div>
+
+    <main class="page">
+      <div class="pageHeader">
+        <div class="hTitle">
+          <h1>Production</h1>
+          <p>KPI summary + production trend placeholders. Use this page as a scaffold for throughput, scrap, OEE, and shift performance.</p>
+        </div>
+
+        <div class="headerControls">
+          <select class="select" id="plant">
+            <option>CNC Shop 1</option>
+            <option>DED Cell</option>
+            <option>Hybrid Lab</option>
+          </select>
+          <select class="select" id="range">
+            <option value="7">Last 7 Days</option>
+            <option value="30" selected>Last 30 Days</option>
+            <option value="90">Last 90 Days</option>
+          </select>
+          <button class="smallBtn" id="refresh">Refresh</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card col-4">
+          <div class="cardHeader"><div class="cardTitle">Throughput</div></div>
+          <div class="cardBody">
+            <div class="kpi">
+              <div class="value" id="kpi1">128</div>
+              <div class="label">Parts completed (selected range)</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card col-4">
+          <div class="cardHeader"><div class="cardTitle">OEE (Mock)</div></div>
+          <div class="cardBody">
+            <div class="kpi">
+              <div class="value" id="kpi2">71%</div>
+              <div class="label">Overall equipment effectiveness</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card col-4">
+          <div class="cardHeader"><div class="cardTitle">Downtime</div></div>
+          <div class="cardBody">
+            <div class="kpi">
+              <div class="value" id="kpi3">42h</div>
+              <div class="label">Total downtime (selected range)</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card col-8">
+          <div class="cardHeader">
+            <div class="cardTitle">Production Trend</div>
+            <button class="smallBtn">Export</button>
+          </div>
+          <div class="cardBody">
+            <div class="chart">
+              <div class="chartLabel">Placeholder chart area (hook up real time-series later)</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card col-4">
+          <div class="cardHeader">
+            <div class="cardTitle">Top Issues</div>
+          </div>
+          <div class="cardBody">
+            <div class="list">
+              <div class="listItem">
+                <div class="listMeta">
+                  <strong>Tool Wear</strong>
+                  <span>8 incidents • Avg 19m downtime</span>
+                </div>
+                <span class="utilPill">High</span>
+              </div>
+              <div class="listItem">
+                <div class="listMeta">
+                  <strong>Material Feed Variance</strong>
+                  <span>DED Cell • 3 alerts</span>
+                </div>
+                <span class="utilPill">Med</span>
+              </div>
+              <div class="listItem">
+                <div class="listMeta">
+                  <strong>Setup Delays</strong>
+                  <span>Shift A • recurring</span>
+                </div>
+                <span class="utilPill">Med</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    const range = document.getElementById('range');
+    const plant = document.getElementById('plant');
+    const refresh = document.getElementById('refresh');
+
+    function rand(n, m){ return Math.floor(Math.random()*(m-n+1))+n; }
+
+    function update(){
+      const r = range.value;
+      const p = plant.value;
+
+      // Mock values that shift with selectors (for prototyping)
+      const base = (p.includes('DED')) ? 60 : 120;
+      const mult = (r === "7") ? 0.35 : (r === "90") ? 2.2 : 1;
+
+      document.getElementById('kpi1').textContent = Math.round(base * mult) + (p.includes('DED') ? "" : "");
+      document.getElementById('kpi2').textContent = rand(62, 83) + "%";
+      document.getElementById('kpi3').textContent = rand(18, 68) + "h";
+    }
+
+    range.addEventListener('change', update);
+    plant.addEventListener('change', update);
+    refresh.addEventListener('click', update);
+
+    update();
+  </script>
+</body>
+</html>

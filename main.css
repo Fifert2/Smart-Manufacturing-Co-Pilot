@@ -1313,3 +1313,197 @@ th.activeSort .sortIcon{
   .pp-grid2{ grid-template-columns: repeat(6, 1fr); }
   .pp-grid2 > .pp-card{ grid-column: span 6 !important; }
 }
+
+
+
+/* ===== Dashboard visual components + animations (required by dashboard.html) ===== */
+.mono{ font-family: var(--mono); }
+
+/* Toolpath */
+.toolpath-visual{
+  height: 280px;
+  background: rgba(7,11,22,.35);
+  border-radius: 12px;
+  border: 1px solid rgba(26,43,85,.55);
+  overflow: hidden;
+}
+.toolpath-grid{
+  width:100%; height:100%;
+  background-image:
+    linear-gradient(rgba(26,43,85,.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,43,85,.35) 1px, transparent 1px);
+  background-size: 48px 48px;
+  position:relative;
+}
+.toolpath-line{
+  position:absolute;
+  top:30%;
+  left:10%;
+  width:80%;
+  height:2px;
+  background: rgba(255,43,43,.95);
+  box-shadow: 0 0 14px rgba(255,43,43,.25);
+  clip-path: polygon(0% 50%, 10% 45%, 20% 50%, 30% 48%, 40% 52%, 50% 50%, 60% 48%, 70% 50%, 80% 45%, 90% 50%, 100% 48%);
+  animation: tpGlow 2s ease-in-out infinite;
+}
+.toolhead{
+  position:absolute;
+  top:30%;
+  left:60%;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: rgba(74,134,255,.95);
+  box-shadow: 0 0 18px rgba(74,134,255,.35);
+  animation: tpMove 4s linear infinite;
+}
+@keyframes tpGlow{ 0%,100%{opacity:1} 50%{opacity:.6} }
+@keyframes tpMove{ 0%{left:10%} 100%{left:90%} }
+
+/* Melt pool */
+.melt-pool-visual{
+  height: 300px;
+  background: rgba(7,11,22,.35);
+  border-radius: 12px;
+  border: 1px solid rgba(26,43,85,.55);
+  overflow:hidden;
+  margin-top: 12px;
+}
+.thermal-map{
+  width: 50%;
+  height:100%;
+  float:left;
+  background: radial-gradient(circle at 45% 50%,
+    rgba(255,43,43,.95) 0%,
+    rgba(255,91,91,.70) 18%,
+    rgba(245,158,11,.55) 35%,
+    rgba(34,197,94,.35) 52%,
+    rgba(17,24,39,.95) 100%
+  );
+  position:relative;
+}
+.thermal-overlay{
+  position:absolute;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.45);
+  animation: mpRing 2s ease-in-out infinite;
+}
+@keyframes mpRing{
+  0%,100%{transform:translate(-50%,-50%) scale(1); opacity:.8}
+  50%{transform:translate(-50%,-50%) scale(1.1); opacity:.35}
+}
+.melt-pool-data{
+  width:50%;
+  height:100%;
+  float:right;
+  padding: 18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap: 14px;
+}
+.melt-metric{ display:flex; justify-content:space-between; align-items:center; gap: 10px; }
+.melt-metric-bar{
+  width: 200px; height: 7px; border-radius: 999px;
+  background: rgba(11,18,36,.9);
+  border: 1px solid rgba(26,43,85,.55);
+  overflow:hidden;
+}
+.melt-metric-fill{ height:100%; border-radius: 999px; }
+.deviation-green{ background:#22c55e; }
+.deviation-blue{ background: rgba(74,134,255,.9); }
+.deviation-red{ background: var(--red); }
+
+/* Gauges */
+.gauge-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+.gauge{ text-align:center; }
+.gauge-circle{ width: 78px; height: 78px; margin: 0 auto 8px; }
+.gauge-bg{
+  width:100%; height:100%;
+  border-radius: 50%;
+  background: conic-gradient(#22c55e 0% 85%, rgba(7,11,22,.65) 85% 100%);
+  display:flex; align-items:center; justify-content:center;
+  border: 1px solid rgba(26,43,85,.55);
+}
+.gauge-bg--92{ background: conic-gradient(#22c55e 0% 92%, rgba(7,11,22,.65) 92% 100%); }
+.gauge-bg--96{ background: conic-gradient(#22c55e 0% 96%, rgba(7,11,22,.65) 96% 100%); }
+.gauge-bg--89{ background: conic-gradient(#22c55e 0% 89%, rgba(7,11,22,.65) 89% 100%); }
+.gauge-inner{
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: rgba(11,18,36,.92);
+  display:flex; align-items:center; justify-content:center;
+  font-weight: 900;
+}
+
+/* Charts */
+.chart-container{
+  height: 120px;
+  background: rgba(7,11,22,.35);
+  border-radius: 12px;
+  border: 1px solid rgba(26,43,85,.55);
+  position:relative;
+  overflow:hidden;
+  margin-top: 10px;
+}
+.chart-line{
+  position:absolute;
+  inset: 0;
+  height: 60%;
+  bottom: 0;
+  margin-top: auto;
+  background: linear-gradient(to top, rgba(255,43,43,.18), transparent);
+  border-top: 2px solid rgba(255,43,43,.9);
+  clip-path: polygon(0% 100%, 2% 95%, 5% 88%, 8% 92%, 12% 85%, 15% 78%, 20% 82%, 25% 75%, 30% 70%, 35% 72%, 40% 68%, 45% 65%, 50% 62%, 55% 65%, 60% 58%, 65% 55%, 70% 52%, 75% 55%, 80% 50%, 85% 48%, 90% 52%, 95% 45%, 100% 42%, 100% 100%);
+  animation: chartDrift 4s ease-in-out infinite;
+}
+.chart-line--ok{ border-top-color: #22c55e; background: linear-gradient(to top, rgba(34,197,94,.16), transparent); }
+.chart-line--warn{ border-top-color: #f59e0b; background: linear-gradient(to top, rgba(245,158,11,.16), transparent); }
+@keyframes chartDrift{ 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
+
+.sparkline{
+  height: 40px;
+  background: rgba(7,11,22,.35);
+  border-radius: 12px;
+  border: 1px solid rgba(26,43,85,.55);
+  position:relative;
+  overflow:hidden;
+  margin-top: 12px;
+}
+.sparkline-line{
+  position:absolute;
+  inset: 0;
+  height: 50%;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(74,134,255,.18), transparent);
+  border-top: 2px solid rgba(74,134,255,.85);
+  clip-path: polygon(0% 100%, 10% 90%, 20% 92%, 30% 85%, 40% 88%, 50% 80%, 60% 86%, 70% 78%, 80% 82%, 90% 74%, 100% 76%, 100% 100%);
+  animation: spark 2.2s ease-in-out infinite;
+}
+@keyframes spark{ 0%,100%{opacity:1} 50%{opacity:.6} }
+
+/* ===== Typography that matches the VS preview ===== */
+.pp-title{ font-size: 40px; font-weight: 800; letter-spacing: -0.03em; }
+.pp-sub{ font-size: 13px; color: var(--muted); }
+.pp-cardTitle{
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.70);
+}
+.melt-metric-label,
+.gauge-label,
+.layer-metric-label,
+.metric-box-label{
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.62);
+}
+.metric-box-value{ font-size: 22px; font-weight: 900; letter-spacing: -0.01em; }
+.metric-box-unit{ font-size: 13px; font-weight: 800; color: rgba(255,255,255,.65); }
+
