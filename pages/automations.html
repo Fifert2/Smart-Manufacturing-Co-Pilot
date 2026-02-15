@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Automations • Smart Manufacturing</title>
+  <link rel="stylesheet" href="../main.css" />
+</head>
+<body>
+  <div class="app">
+
+    <div class="topbar">
+      <div class="brand">
+         <img src="./pages/resources/testlogo.png" alt="Smart Manufacturing Logo" class="logoImg">
+         <div class="brandTitle">
+          <strong>SMART MANUFACTURING Co-Pilot</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+
+   <nav class="tabs" aria-label="Primary">
+      <a class="tab" href="./machines.html"><span class="tabDot"></span>Machines</a>
+      <a class="tab" href="./dashboard.html"><span class="tabDot"></span>Dashboard</a>
+      <a class="tab" href="./reports.html"><span class="tabDot"></span>Reports</a>
+      <a class="tab" href="./production.html"><span class="tabDot"></span>Production</a>
+      <a class="tab active" href="./automations.html"><span class="tabDot"></span>Automations</a>
+   </nav>
+
+      <div class="topActions">
+        <button class="iconBtn" title="Help">?</button>
+        <button class="iconBtn" title="Settings">⚙</button>
+        <button class="primaryBtn" id="newAuto">New Automation</button>
+      </div>
+    </div>
+
+    <main class="page">
+      <div class="pageHeader">
+        <div class="hTitle">
+          <h1>Automations</h1>
+          <p>Prototype rule engine UI: alerts, scheduled exports, anomaly notifications, and “if/then” workflows.</p>
+        </div>
+
+        <div class="headerControls">
+          <select class="select" id="scope">
+            <option value="all" selected>Scope: All</option>
+            <option value="cnc">Scope: CNC</option>
+            <option value="ded">Scope: DED</option>
+          </select>
+          <button class="smallBtn" id="disableAll">Disable All</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card col-12">
+          <div class="cardHeader">
+            <div class="cardTitle">Rules</div>
+          </div>
+          <div class="cardBody">
+            <div class="list" id="autoList"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Drawer: Create Automation -->
+    <div class="backdrop" id="autoBackdrop" aria-hidden="true">
+      <div class="drawer" role="dialog" aria-modal="true" aria-label="New Automation">
+        <div class="drawerHeader">
+          <div>
+            <h2>Create Automation</h2>
+            <p>Prototype builder. Later: add intent mapping, thresholds, schedules, and channels (email/slack/voice).</p>
+          </div>
+          <button class="drawerClose" id="closeAuto">✕</button>
+        </div>
+
+        <div class="form">
+          <div class="field">
+            <label>Name</label>
+            <input id="aName" placeholder="Notify on powder feed variance > 5%" />
+          </div>
+          <div class="field">
+            <label>Scope</label>
+            <select id="aScope">
+              <option value="cnc">CNC</option>
+              <option value="ded" selected>DED</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Trigger</label>
+            <input id="aTrigger" placeholder="metric: powder_feed_variance, threshold: 5%" />
+          </div>
+          <div class="field">
+            <label>Action</label>
+            <input id="aAction" placeholder="send alert to operator + log event" />
+          </div>
+        </div>
+
+        <div class="drawerFooter">
+          <button class="smallBtn" id="cancelAuto">Cancel</button>
+          <button class="primaryBtn" id="saveAuto">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const list = document.getElementById('autoList');
+    const scopeFilter = document.getElementById('scope');
+
+    let autos = [
+      { name:"DED: Powder feed variance > 5%", scope:"ded", trigger:"powder_feed_variance > 5%", action:"Create alert + recommend check hopper", on:true },
+      { name:"CNC: Cycle time deviation > 12%", scope:"cnc", trigger:"cycle_time_zscore > 2.0", action:"Notify lead + log downtime reason", on:true },
+      { name:"Export utilization report daily", scope:"all", trigger:"schedule: daily 18:00", action:"Generate + email report", on:false }
+    ];
+
+    function render(){
+      const f = scopeFilter.value;
+      const view = (f === "all") ? autos : autos.filter(a => a.scope === f);
+
+      list.innerHTML = view.map((a, idx) => `
+        <div class="listItem">
+          <div class="listMeta">
+            <strong>${a.name}</strong>
+            <span><span class="mono">${a.trigger}</span> → ${a.action}</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button class="smallBtn">Edit</button>
+            <div class="toggle ${a.on ? "on" : ""}" role="switch" aria-checked="${a.on}" tabindex="0" data-idx="${idx}" title="Toggle"></div>
+          </div>
+        </div>
+      `).join("");
+
+      // Toggle behavior
+      document.querySelectorAll('.toggle').forEach(t => {
+        const idx = parseInt(t.getAttribute('data-idx'), 10);
+        t.addEventListener('click', () => {
+          autos[idx].on = !autos[idx].on;
+          render();
+        });
+        t.addEventListener('keydown', (e) => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            autos[idx].on = !autos[idx].on;
+            render();
+          }
+        });
+      });
+    }
+
+    scopeFilter.addEventListener('change', render);
+    render();
+
+    document.getElementById('disableAll').addEventListener('click', () => {
+      autos = autos.map(a => ({...a, on:false}));
+      render();
+    });
+
+    // Drawer
+    const autoBackdrop = document.getElementById('autoBackdrop');
+    const newAuto = document.getElementById('newAuto');
+    const closeAuto = document.getElementById('closeAuto');
+    const cancelAuto = document.getElementById('cancelAuto');
+    const saveAuto = document.getElementById('saveAuto');
+
+    function show(){ autoBackdrop.classList.add('show'); autoBackdrop.setAttribute('aria-hidden','false'); document.getElementById('aName').focus(); }
+    function hide(){ autoBackdrop.classList.remove('show'); autoBackdrop.setAttribute('aria-hidden','true'); }
+
+    newAuto.addEventListener('click', show);
+    closeAuto.addEventListener('click', hide);
+    cancelAuto.addEventListener('click', hide);
+    autoBackdrop.addEventListener('click', (e) => { if(e.target === autoBackdrop) hide(); });
+    document.addEventListener('keydown', (e) => { if(e.key === "Escape" && autoBackdrop.classList.contains('show')) hide(); });
+
+    saveAuto.addEventListener('click', () => {
+      const name = document.getElementById('aName').value.trim();
+      const scope = document.getElementById('aScope').value;
+      const trigger = document.getElementById('aTrigger').value.trim();
+      const action = document.getElementById('aAction').value.trim();
+
+      if(!name || !trigger || !action){
+        alert("Please fill Name, Trigger, and Action.");
+        return;
+      }
+
+      autos.unshift({ name, scope, trigger, action, on:true });
+
+      document.getElementById('aName').value = "";
+      document.getElementById('aScope').value = "ded";
+      document.getElementById('aTrigger').value = "";
+      document.getElementById('aAction').value = "";
+
+      hide();
+      render();
+    });
+  </script>
+</body>
+</html>

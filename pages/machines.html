@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Machines • Smart Manufacturing</title>
+  <link rel="stylesheet" href="../main.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="brand">
+         <img src="./resources/testlogo.png" alt="Smart Manufacturing Logo" class="logoImg">
+         <div class="brandTitle">
+          <strong>SMART MANUFACTURING Co-Pilot</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+
+   <nav class="tabs" aria-label="Primary">
+      <a class="tab active" href="./machines.html"><span class="tabDot"></span>Machines</a>
+      <a class="tab" href="./dashboard.html"><span class="tabDot"></span>Dashboard</a>
+      <a class="tab" href="./reports.html"><span class="tabDot"></span>Reports</a>
+      <a class="tab" href="./production.html"><span class="tabDot"></span>Production</a>
+      <a class="tab" href="./automations.html"><span class="tabDot"></span>Automations</a>
+   </nav>
+
+
+      <div class="topActions">
+        <button class="iconBtn" title="Help">?</button>
+        <button class="iconBtn" title="Settings">⚙</button>
+        <button class="primaryBtn" id="openAdd">Add Machine</button>
+      </div>
+    </div>
+
+    <main class="page">
+      <div class="pageHeader">
+        <div class="hTitle">
+          <h1>Machines</h1>
+          <p>Table-style machine view (like MachineMetrics), adapted to dark navy + red. Search, sort, and expand rows.</p>
+        </div>
+
+        <div class="headerControls">
+          <span class="pill" id="resultCount">0 machines</span>
+          <select class="select" id="range">
+            <option value="7">Range: Last 7 Days</option>
+            <option value="30" selected>Range: Last 30 Days</option>
+            <option value="90">Range: Last 90 Days</option>
+          </select>
+          <button class="smallBtn" id="clearFilters">Clear Filters</button>
+        </div>
+      </div>
+
+      <section class="panel" style="margin-top:14px;">
+        <div class="panelHeader">
+          <div class="panelTitle">Machine List</div>
+          <div class="searchRow" style="justify-content:flex-end;">
+            <div class="input" style="min-width: 340px;">
+              <span class="hint">Search</span>
+              <input id="search" placeholder="CNC 104, FA-DED-03, IN718..." />
+            </div>
+            <select class="select" id="statusFilter">
+              <option value="all" selected>Status: All</option>
+              <option value="active">Active</option>
+              <option value="idle">Idle</option>
+              <option value="alarm">Alarm</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panelBody">
+          <div class="tableWrap">
+            <table id="machineTable">
+              <thead>
+                <tr>
+                  <th style="width:64px;"></th>
+                  <th>Machine</th>
+                  <th>Current Operation</th>
+                  <th class="sortable" data-sort="util">Utilization Rate <span class="sortIcon">↕</span></th>
+                  <th class="sortable" data-sort="cycle">Time in Cycle <span class="sortIcon">↕</span></th>
+                  <th class="sortable" data-sort="down">Total Downtime <span class="sortIcon">↕</span></th>
+                  <th>Utilization Graph</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Drawer: Add Machine -->
+    <div class="backdrop" id="addBackdrop" aria-hidden="true">
+      <div class="drawer" role="dialog" aria-modal="true" aria-label="Add Machine">
+        <div class="drawerHeader">
+          <div>
+            <h2>Add a Machine</h2>
+            <p>Mock form for interactive prototyping. No backend — adds to the table in-memory.</p>
+          </div>
+          <button class="drawerClose" id="closeAdd">✕</button>
+        </div>
+
+        <div class="form">
+          <div class="field">
+            <label>Machine Name</label>
+            <input id="mName" placeholder="CNC 104 / FA-DED-03" />
+          </div>
+          <div class="field">
+            <label>Type</label>
+            <select id="mType">
+              <option value="CNC">CNC</option>
+              <option value="DED">DED</option>
+              <option value="Robot">Robot Cell</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="mStatus">
+              <option value="active">Active</option>
+              <option value="idle" selected>Idle</option>
+              <option value="alarm">Alarm</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Notes</label>
+            <textarea id="mNotes" placeholder="Optional notes…"></textarea>
+          </div>
+        </div>
+
+        <div class="drawerFooter">
+          <button class="smallBtn" id="cancelAdd">Cancel</button>
+          <button class="primaryBtn" id="saveAdd">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- Data (stub) ---
+    let machines = [
+      { id:"CNC 104", type:"CNC", status:"idle", since:"2h 56m", op:"00426", util:31.0, cycle:"219h 48m", down:"488h 45m" },
+      { id:"CNC 190", type:"CNC", status:"active", since:"4h 19m", op:"00118", util:59.6, cycle:"422h 10m", down:"286h 22m" },
+      { id:"CNC 132", type:"CNC", status:"active", since:"1m 18s", op:"00165", util:46.4, cycle:"328h 24m", down:"380h 2m" },
+      { id:"CNC 177", type:"CNC", status:"alarm", since:"3h 31m", op:"00155", util:42.5, cycle:"300h 51m", down:"407h 36m" },
+      { id:"CNC 212", type:"CNC", status:"active", since:"7m 33s", op:"00343", util:37.2, cycle:"263h 26m", down:"445h 12m" },
+      { id:"FA-DED-03", type:"DED", status:"active", since:"Live Build", op:"IN718_Housing_RevC", util:68.2, cycle:"94h 10m", down:"58h 44m" },
+      { id:"FA-DED-02", type:"DED", status:"idle", since:"18m", op:"Ti64_Repair_Run", util:22.7, cycle:"120h 02m", down:"512h 12m" }
+    ];
+
+    // --- Helpers ---
+    const tbody = document.getElementById('rows');
+    const resultCount = document.getElementById('resultCount');
+    const searchEl = document.getElementById('search');
+    const statusFilter = document.getElementById('statusFilter');
+    const clearFilters = document.getElementById('clearFilters');
+
+    const sortState = { key: null, dir: 1 }; // dir: 1 asc, -1 desc
+
+    function statusText(s){
+      if(s === "active") return "Active";
+      if(s === "idle") return "Idle";
+      return "Alarm";
+    }
+
+    function statusHint(s){
+      if(s === "active") return "• Running";
+      if(s === "idle") return "• Idle";
+      return "• Needs attention";
+    }
+
+    function badgeLabel(type){
+      if(type === "DED") return "D";
+      if(type === "CNC") return "C";
+      if(type === "Robot") return "R";
+      return "M";
+    }
+
+    function utilPill(u){
+      // Utilization remains red (per request), but you can map by thresholds later if desired.
+      return `<span class="utilPill">${u.toFixed(1)}%</span>`;
+    }
+
+    function render(){
+      const q = (searchEl.value || "").toLowerCase().trim();
+      const sf = statusFilter.value;
+
+      let view = machines.filter(m => {
+        const matchQ = !q || (m.id.toLowerCase().includes(q) || m.op.toLowerCase().includes(q) || m.type.toLowerCase().includes(q));
+        const matchS = sf === "all" || m.status === sf;
+        return matchQ && matchS;
+      });
+
+      // sorting
+      if(sortState.key){
+        const k = sortState.key;
+        view.sort((a,b) => {
+          const av = (k==="util") ? a.util :
+                     (k==="cycle") ? parseHours(a.cycle) :
+                     (k==="down") ? parseHours(a.down) : 0;
+          const bv = (k==="util") ? b.util :
+                     (k==="cycle") ? parseHours(b.cycle) :
+                     (k==="down") ? parseHours(b.down) : 0;
+          return (av - bv) * sortState.dir;
+        });
+      }
+
+      resultCount.textContent = `${view.length} machine${view.length===1?"":"s"}`;
+
+      tbody.innerHTML = view.map(m => `
+        <tr class="mainRow" data-id="${m.id}">
+          <td>
+            <button class="expandBtn" title="Expand" aria-label="Expand ${m.id}">›</button>
+          </td>
+          <td>
+            <div class="rowMain">
+              <div class="machineBadge">${badgeLabel(m.type)}</div>
+              <div class="mName">
+                <strong>${m.id}</strong>
+                <span>${m.since} ${statusHint(m.status)} • <span class="mono">${statusText(m.status).toUpperCase()}</span></span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <strong class="mono">${m.op}</strong><br/>
+            <span style="color: var(--muted); font-size:12px;">${m.type} • Range: Last ${document.getElementById('range').value} Days</span>
+          </td>
+          <td>${utilPill(m.util)}</td>
+          <td class="mono">${m.cycle}</td>
+          <td class="mono">${m.down}</td>
+          <td><div class="spark" title="Mock utilization sparkline"></div></td>
+        </tr>
+        <tr class="subRow" data-sub="${m.id}" style="display:none;">
+          <td colspan="7">
+            <div class="subPanel">
+              <div class="meta">
+                <div class="kv">
+                  <span>Machine ID</span><strong>${m.id}</strong>
+                  <span>Type</span><strong>${m.type}</strong>
+                  <span>Status</span><strong>${statusText(m.status)}</strong>
+                </div>
+                <div class="kv">
+                  <span>Current Op</span><strong>${m.op}</strong>
+                  <span>Util</span><strong>${m.util.toFixed(1)}%</strong>
+                </div>
+                <span style="color: var(--muted); font-size: 12px; line-height:1.5;">
+                  Expanded row area for: recent alarms, live parameters, notes, and quick actions.
+                </span>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+                <button class="smallBtn">Open Live View</button>
+                <button class="smallBtn">View History</button>
+                <button class="smallBtn">Export Snapshot</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+
+      // wire up expand buttons
+      document.querySelectorAll('.expandBtn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const tr = e.target.closest('tr');
+          const id = tr.getAttribute('data-id');
+          const sub = document.querySelector(`tr[data-sub="${cssEscape(id)}"]`);
+          const isOpen = sub.style.display !== "none";
+          sub.style.display = isOpen ? "none" : "";
+          e.target.textContent = isOpen ? "›" : "⌄";
+        });
+      });
+    }
+
+    // Parsing "219h 48m" -> hours float
+    function parseHours(str){
+      const h = /(\d+)\s*h/.exec(str);
+      const m = /(\d+)\s*m/.exec(str);
+      const hours = h ? parseInt(h[1],10) : 0;
+      const mins  = m ? parseInt(m[1],10) : 0;
+      return hours + (mins/60);
+    }
+
+    function cssEscape(s){
+      // minimal escape for attribute selector
+      return s.replace(/"/g, '\\"');
+    }
+
+    // Sorting headers
+    document.querySelectorAll('th.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.getAttribute('data-sort');
+        if(sortState.key === key){
+          sortState.dir *= -1;
+        } else {
+          sortState.key = key;
+          sortState.dir = -1; // default: desc
+        }
+
+        // visual state
+        document.querySelectorAll('th.sortable').forEach(x => x.classList.remove('activeSort'));
+        th.classList.add('activeSort');
+
+        render();
+      });
+    });
+
+    // Filters
+    searchEl.addEventListener('input', render);
+    statusFilter.addEventListener('change', render);
+    document.getElementById('range').addEventListener('change', render);
+    clearFilters.addEventListener('click', () => {
+      searchEl.value = "";
+      statusFilter.value = "all";
+      sortState.key = null;
+      sortState.dir = 1;
+      document.querySelectorAll('th.sortable').forEach(x => x.classList.remove('activeSort'));
+      render();
+    });
+
+    // Drawer: Add Machine
+    const addBackdrop = document.getElementById('addBackdrop');
+    const openAdd = document.getElementById('openAdd');
+    const closeAdd = document.getElementById('closeAdd');
+    const cancelAdd = document.getElementById('cancelAdd');
+    const saveAdd = document.getElementById('saveAdd');
+
+    function showDrawer(){
+      addBackdrop.classList.add('show');
+      addBackdrop.setAttribute('aria-hidden', 'false');
+      document.getElementById('mName').focus();
+    }
+    function hideDrawer(){
+      addBackdrop.classList.remove('show');
+      addBackdrop.setAttribute('aria-hidden', 'true');
+    }
+    openAdd.addEventListener('click', showDrawer);
+    closeAdd.addEventListener('click', hideDrawer);
+    cancelAdd.addEventListener('click', hideDrawer);
+    addBackdrop.addEventListener('click', (e) => {
+      if(e.target === addBackdrop) hideDrawer();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === "Escape" && addBackdrop.classList.contains('show')) hideDrawer();
+    });
+
+    saveAdd.addEventListener('click', () => {
+      const name = document.getElementById('mName').value.trim();
+      const type = document.getElementById('mType').value;
+      const status = document.getElementById('mStatus').value;
+      const notes = document.getElementById('mNotes').value.trim();
+
+      if(!name){
+        alert("Please enter a machine name.");
+        return;
+      }
+
+      machines.unshift({
+        id: name,
+        type,
+        status,
+        since: "Just added",
+        op: notes ? notes.slice(0, 28) : "—",
+        util: Math.max(5, Math.min(95, (Math.random()*80)+10)),
+        cycle: `${Math.floor(Math.random()*300)+40}h ${Math.floor(Math.random()*59)}m`,
+        down: `${Math.floor(Math.random()*500)+20}h ${Math.floor(Math.random()*59)}m`
+      });
+
+      // reset
+      document.getElementById('mName').value = "";
+      document.getElementById('mType').value = "CNC";
+      document.getElementById('mStatus').value = "idle";
+      document.getElementById('mNotes').value = "";
+
+      hideDrawer();
+      render();
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
