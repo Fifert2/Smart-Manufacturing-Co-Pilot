@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Start • Smart Manufacturing UI</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logoMark"></div>
+        <div class="brandTitle">
+          <strong>SMART MANUFACTURING CO-Pilot</strong>
+          <span>UI Prototype • Navy / White / Red</span>
+        </div>
+      </div>
+
+      <div class="topActions">
+        <span class="pill">Local Prototype</span>
+        <button class="primaryBtn" id="go">Open Machines</button>
+      </div>
+    </div>
+
+    <main class="page">
+      <div class="pageHeader">
+        <div class="hTitle">
+          <h1>Start Page</h1>
+          <p>
+            This project uses your information architecture: root <span class="mono">start_page.html</span>,
+            and pages under <span class="mono">/pages</span>.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card col-6">
+          <div class="cardHeader">
+            <div class="cardTitle">Navigation</div>
+          </div>
+          <div class="cardBody">
+            <div class="list">
+              <a class="listItem" href="./pages/machines.html">
+                <div class="listMeta">
+                  <strong>Machines</strong>
+                  <span>Table view, filters, utilization sorting, expandable rows</span>
+                </div>
+                <span class="utilPill">Open</span>
+              </a>
+
+              <a class="listItem" href="./pages/production.html">
+                <div class="listMeta">
+                  <strong>Production</strong>
+                  <span>KPI cards + chart placeholders</span>
+                </div>
+                <span class="utilPill">Open</span>
+              </a>
+
+              <a class="listItem" href="./pages/reports.html">
+                <div class="listMeta">
+                  <strong>Reports</strong>
+                  <span>Report list + export buttons</span>
+                </div>
+                <span class="utilPill">Open</span>
+              </a>
+
+              <a class="listItem" href="./pages/automations.html">
+                <div class="listMeta">
+                  <strong>Automations</strong>
+                  <span>Rules list + toggles + create drawer</span>
+                </div>
+                <span class="utilPill">Open</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="card col-6">
+          <div class="cardHeader">
+            <div class="cardTitle">Notes</div>
+          </div>
+          <div class="cardBody">
+            <p style="margin:0; color: var(--muted); line-height: 1.6;">
+              Styling lives entirely in <span class="mono">main.css</span>.
+              Each page includes small vanilla JS for interactions (search/sort/drawer/toggles).
+              If you upload a closer UI reference screenshot later, I can tighten spacing and components
+              to match it more precisely.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('go').addEventListener('click', () => {
+      window.location.href = './pages/machines.html';
+    });
+  </script>
+</body>
+</html>

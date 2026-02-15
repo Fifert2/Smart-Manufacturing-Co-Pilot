@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard • Smart Manufacturing</title>
+  <link rel="stylesheet" href="../main.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="brand">
+         <img src="./resources/testlogo.png" alt="Smart Manufacturing Logo" class="logoImg">
+         <div class="brandTitle">
+          <strong>SMART MANUFACTURING</strong>
+          <span>Operations Console</span>
+        </div>
+      </div>
+
+      <!-- Nav Tabs (Dashboard in the middle) -->
+      <nav class="tabs" aria-label="Primary">
+        <a class="tab" href="./machines.html"><span class="tabDot"></span>Machines</a>
+        <a class="tab active" href="./dashboard.html"><span class="tabDot"></span>Dashboard</a>
+        <a class="tab" href="./reports.html"><span class="tabDot"></span>Reports</a>
+        <a class="tab" href="./production.html"><span class="tabDot"></span>Production</a>
+        <a class="tab" href="./automations.html"><span class="tabDot"></span>Automations</a>
+      </nav>
+
+      <div class="topActions">
+        <button class="iconBtn" title="Help">?</button>
+        <button class="iconBtn" title="Settings">⚙</button>
+        <span class="pill">Live Build</span>
+      </div>
+    </div>
+
+    <!-- IMPORTANT: this page is ONLY the dashboard -->
+    <main class="page page--dashboard">
+      <section class="dedShell">
+        <!-- Paste of your DED dashboard body content, scoped -->
+        <div class="dedDash">
+          <div class="dashboard">
+            <!-- TOP STATUS BAR -->
+            <!-- AI / Search bar (NEW) -->
+<div class="pp-ai">
+  <div class="pp-crumbs">
+    <span>Home</span><span class="sep">/</span>
+    <span>Dashboard</span><span class="sep">/</span>
+    <strong>DED Live Build</strong>
+  </div>
+
+  <form class="pp-aiBox" id="aiPromptForm">
+    <span class="pp-aiIcon">⌁</span>
+    <input id="aiPromptInput" type="text" placeholder='Ask Co-Pilot… e.g. "show drift last 10 layers"' />
+    <button class="pp-aiSend" type="submit">Send</button>
+  </form>
+</div>
+
+<!-- PAGE TITLE (like screenshot) -->
+<div class="pp-titleRow">
+  <h1 class="pp-title">Dashboard</h1>
+  <div class="pp-sub mono">Machine: FA-DED-03 • Build: IN718_Housing_RevC • Material: IN718</div>
+</div>
+
+<!-- KPI tiles row (NEW) -->
+<div class="pp-kpis">
+  <div class="pp-kpi">
+    <div class="pp-kpiTop"><span class="up">▲</span> 38%</div>
+    <div class="pp-kpiLabel">Build Complete</div>
+    <div class="pp-kpiValue mono">84 / 220</div>
+  </div>
+  <div class="pp-kpi">
+    <div class="pp-kpiTop"><span class="up">▲</span> Stable</div>
+    <div class="pp-kpiLabel">Health Score</div>
+    <div class="pp-kpiValue mono">92</div>
+  </div>
+  <div class="pp-kpi">
+    <div class="pp-kpiTop"><span class="warn">●</span> Monitor</div>
+    <div class="pp-kpiLabel">Spatter Index</div>
+    <div class="pp-kpiValue mono">85</div>
+  </div>
+  <div class="pp-kpi">
+    <div class="pp-kpiTop"><span class="up">▲</span> Normal</div>
+    <div class="pp-kpiLabel">Oxygen</div>
+    <div class="pp-kpiValue mono">45 ppm</div>
+  </div>
+  <div class="pp-kpi">
+    <div class="pp-kpiTop"><span class="up">▲</span> Nominal</div>
+    <div class="pp-kpiLabel">Laser Power</div>
+    <div class="pp-kpiValue mono">1850 W</div>
+  </div>
+  <div class="pp-kpi">
+    <div class="pp-kpiTop"><span class="down">▼</span> Drift</div>
+    <div class="pp-kpiLabel">Conformity</div>
+    <div class="pp-kpiValue mono">94%</div>
+  </div>
+</div>
+
+<!-- MAIN AREA (middle panels only; no left sidebar) -->
+<div class="pp-layout">
+
+  <!-- CENTER STACK -->
+  <div class="pp-center">
+
+    <!-- Production Volume (NEW) -->
+    <div class="pp-card">
+      <div class="pp-cardHead">
+        <div class="pp-cardTitle">Production Volume</div>
+        <div class="pp-chipRow">
+          <span class="pp-chip">Machine 1 ✕</span>
+          <span class="pp-chip">Machine 2 ✕</span>
+        </div>
+      </div>
+
+      <!-- chart placeholder styled like screenshot -->
+      <div class="pp-chartBars" aria-label="Production volume chart placeholder">
+        <div class="pp-barsGrid"></div>
+        <div class="pp-barsLegend">
+          <span><i class="c1"></i> Machine 1</span>
+          <span><i class="c2"></i> Machine 2</span>
+          <span><i class="c3"></i> Machine 4</span>
+          <span><i class="c4"></i> Machine 8</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolpath Live Map (KEEP, but presented as a big middle panel) -->
+    <div class="pp-card">
+      <div class="pp-cardHead">
+        <div class="pp-cardTitle">Toolpath Live Map</div>
+        <span class="pp-liveDot" title="Live"></span>
+      </div>
+      <div class="toolpath-visual">
+        <div class="toolpath-grid">
+          <div class="toolpath-line"></div>
+          <div class="toolhead"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Melt Pool Intelligence (KEEP, wide panel) -->
+    <div class="pp-card">
+      <div class="pp-cardHead">
+        <div class="pp-cardTitle">Melt Pool Intelligence</div>
+        <span class="pp-liveDot" title="Live"></span>
+      </div>
+
+      <div class="melt-pool-visual">
+        <div class="thermal-map">
+          <div class="thermal-overlay"></div>
+        </div>
+        <div class="melt-pool-data">
+          <div class="melt-metric">
+            <span class="melt-metric-label">Width vs Nominal</span>
+            <div class="melt-metric-bar"><div class="melt-metric-fill deviation-green" style="width:98%;"></div></div>
+          </div>
+          <div class="melt-metric">
+            <span class="melt-metric-label">Length vs Nominal</span>
+            <div class="melt-metric-bar"><div class="melt-metric-fill deviation-green" style="width:95%;"></div></div>
+          </div>
+          <div class="melt-metric">
+            <span class="melt-metric-label">Thermal Gradient</span>
+            <div class="melt-metric-bar"><div class="melt-metric-fill deviation-blue" style="width:88%;"></div></div>
+          </div>
+          <div class="melt-metric">
+            <span class="melt-metric-label">Symmetry</span>
+            <div class="melt-metric-bar"><div class="melt-metric-fill deviation-green" style="width:92%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gauge-grid">
+        <div class="gauge"><div class="gauge-circle"><div class="gauge-bg"><div class="gauge-inner mono">85</div></div></div><div class="gauge-label">Spatter Index</div></div>
+        <div class="gauge"><div class="gauge-circle"><div class="gauge-bg gauge-bg--92"><div class="gauge-inner mono">92</div></div></div><div class="gauge-label">Thermal Stability</div></div>
+        <div class="gauge"><div class="gauge-circle"><div class="gauge-bg gauge-bg--96"><div class="gauge-inner mono">96</div></div></div><div class="gauge-label">Defect Prob</div></div>
+        <div class="gauge"><div class="gauge-circle"><div class="gauge-bg gauge-bg--89"><div class="gauge-inner mono">89</div></div></div><div class="gauge-label">Symmetry Score</div></div>
+      </div>
+
+      <div class="layer-metrics">
+        <div class="layer-metric"><div class="layer-metric-value mono">84</div><div class="layer-metric-label">Current Layer</div></div>
+        <div class="layer-metric"><div class="layer-metric-value mono">2.4</div><div class="layer-metric-label">Deposition Rate</div></div>
+        <div class="layer-metric"><div class="layer-metric-value mono">+12μm</div><div class="layer-metric-label">Height Error</div></div>
+        <div class="layer-metric"><div class="layer-metric-value mono">18.2kJ</div><div class="layer-metric-label">Energy Input</div></div>
+      </div>
+    </div>
+
+    <!-- Lower row (KEEP your existing panels, just placed under) -->
+    <div class="pp-grid2">
+      <!-- Laser -->
+      <div class="pp-card">
+        <div class="pp-cardHead"><div class="pp-cardTitle">Laser System</div><span class="pp-liveDot"></span></div>
+        <div class="chart-container"><div class="chart-line"></div></div>
+        <div class="metrics-grid">
+          <div class="metric-box"><div class="metric-box-label">Melt Pool Temp</div><div class="metric-box-value mono">2180<span class="metric-box-unit">°C</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Beam Diameter</div><div class="metric-box-value mono">2.8<span class="metric-box-unit">mm</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Energy Density</div><div class="metric-box-value mono">52<span class="metric-box-unit">J/mm²</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Stability Index</div><div class="metric-box-value mono">97<span class="metric-box-unit">%</span></div></div>
+        </div>
+      </div>
+
+      <!-- Powder -->
+      <div class="pp-card">
+        <div class="pp-cardHead"><div class="pp-cardTitle">Powder Delivery</div><span class="pp-liveDot"></span></div>
+        <div class="chart-container"><div class="chart-line chart-line--ok"></div></div>
+        <div class="metrics-grid">
+          <div class="metric-box metric-box--ok"><div class="metric-box-label">Feed Rate</div><div class="metric-box-value mono">12.8<span class="metric-box-unit">g/min</span></div></div>
+          <div class="metric-box metric-box--ok"><div class="metric-box-label">Gas Flow</div><div class="metric-box-value mono">8.5<span class="metric-box-unit">L/min</span></div></div>
+          <div class="metric-box metric-box--ok"><div class="metric-box-label">Hopper Level</div><div class="metric-box-value mono">68<span class="metric-box-unit">%</span></div></div>
+          <div class="metric-box metric-box--ok"><div class="metric-box-label">Stability</div><div class="metric-box-value mono">94<span class="metric-box-unit">%</span></div></div>
+        </div>
+      </div>
+
+      <!-- Quality issues donut (NEW) -->
+      <div class="pp-card">
+        <div class="pp-cardHead">
+          <div class="pp-cardTitle">Quality Issues</div>
+          <span class="pp-date mono">06/14/2023</span>
+        </div>
+        <div class="pp-donutWrap">
+          <div class="pp-donut"></div>
+          <div class="pp-donutLabels">
+            <span>Equipment Failure</span>
+            <span>Poor Organization</span>
+            <span>Logistics Challenges</span>
+            <span>Others</span>
+            <span>Planned Downtime</span>
+            <span>Physical Damages</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Environment -->
+      <div class="pp-card">
+        <div class="pp-cardHead"><div class="pp-cardTitle">Environment</div><span class="pp-liveDot"></span></div>
+        <div class="metrics-grid">
+          <div class="metric-box metric-box--warn"><div class="metric-box-label">Chamber Temp</div><div class="metric-box-value mono">24.2<span class="metric-box-unit">°C</span></div></div>
+          <div class="metric-box metric-box--warn"><div class="metric-box-label">Humidity</div><div class="metric-box-value mono">32<span class="metric-box-unit">%</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Oxygen</div><div class="metric-box-value mono">45<span class="metric-box-unit">ppm</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Shield Gas</div><div class="metric-box-value mono">15.2<span class="metric-box-unit">L/min</span></div></div>
+        </div>
+        <div class="sparkline"><div class="sparkline-line"></div></div>
+      </div>
+
+      <!-- Motion -->
+      <div class="pp-card">
+        <div class="pp-cardHead"><div class="pp-cardTitle">Motion Metrics</div><span class="pp-liveDot"></span></div>
+        <div class="metrics-grid">
+          <div class="metric-box"><div class="metric-box-label">Travel Speed</div><div class="metric-box-value mono">850<span class="metric-box-unit">mm/s</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Acceleration</div><div class="metric-box-value mono">2.4<span class="metric-box-unit">m/s²</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Axis Load</div><div class="metric-box-value mono">68<span class="metric-box-unit">%</span></div></div>
+          <div class="metric-box"><div class="metric-box-label">Position Error</div><div class="metric-box-value mono">8<span class="metric-box-unit">μm</span></div></div>
+        </div>
+      </div>
+
+      <!-- Build Integrity -->
+      <div class="pp-card">
+        <div class="pp-cardHead"><div class="pp-cardTitle">Build Integrity</div><span class="pp-liveDot"></span></div>
+        <div class="chart-container"><div class="chart-line chart-line--warn"></div></div>
+        <div class="metrics-grid">
+          <div class="metric-box metric-box--warn"><div class="metric-box-label">Conformity</div><div class="metric-box-value mono">94<span class="metric-box-unit">%</span></div></div>
+          <div class="metric-box metric-box--warn"><div class="metric-box-label">Drift</div><div class="metric-box-value mono">18<span class="metric-box-unit">μm</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN (Alerts + Machines like screenshot) -->
+  <aside class="pp-right">
+    <div class="pp-card">
+      <div class="pp-cardHead">
+        <div class="pp-cardTitle">Alerts</div>
+        <button class="pp-mini">See all</button>
+      </div>
+
+      <div class="pp-alerts">
+        <div class="pp-alert warn">
+          <div class="dot">!</div>
+          <div>
+            <div class="t">Powder feed fluctuation</div>
+            <div class="s">Layer 82 • +6% variance • stability 94%</div>
+            <div class="a">
+              <button class="pp-mini">Breakdown</button>
+              <button class="pp-mini">Snooze</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pp-alert ok">
+          <div class="dot">✓</div>
+          <div>
+            <div class="t">Inspection completed</div>
+            <div class="s">Machine 2 • verification passed</div>
+            <div class="a">
+              <button class="pp-mini">Close</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pp-alert">
+          <div class="dot">i</div>
+          <div>
+            <div class="t">Upcoming inspection</div>
+            <div class="s">Machine 6 • scheduled soon</div>
+            <div class="a">
+              <button class="pp-mini">Snooze</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pp-card">
+      <div class="pp-cardHead">
+        <div class="pp-cardTitle">Machines</div>
+      </div>
+
+      <div class="pp-machList">
+        <div class="pp-mach">
+          <div class="top">
+            <div class="name">FA-DED-03</div>
+            <span class="tag run">Running</span>
+          </div>
+          <div class="meta">Layer 84/220 • IN718</div>
+        </div>
+
+        <div class="pp-mach">
+          <div class="top">
+            <div class="name">Machine 2</div>
+            <span class="tag insp">Under inspection</span>
+          </div>
+          <div class="meta">Next: Apr 25, 2024</div>
+        </div>
+
+        <div class="pp-mach">
+          <div class="top">
+            <div class="name">Machine 3</div>
+            <span class="tag down">Breakdown</span>
+          </div>
+          <div class="meta">Action required</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
